@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    protected int xPos;
-    protected int yPos;
+    private ObjectManager arrayContainer;
 
-    protected int prevX;
-    protected int prevY;
-
-    protected bool canUp;
-    protected bool canDown;
-    protected bool canRight;
-    protected bool canLeft;
+    private int xPos;
+    private int yPos;
+   
+    private int prevX;
+    private int prevY;
+    
+    private bool canUp;
+    private bool canDown;
+    private bool canRight;
+    private bool canLeft;
 
     public int XPos
     {
@@ -61,5 +63,34 @@ public class Block : MonoBehaviour
     {
         get { return canLeft; }
         set { canLeft = value; }
+    }
+
+    private void Awake()
+    {
+        arrayContainer = GameObject.Find("StageManager").GetComponent<ObjectManager>();
+    }
+
+    void Update()
+    {
+        if (xPos + 1 > arrayContainer.ColsNum - 1 || arrayContainer.GameArray[xPos + 1, YPos] != null)
+        {
+            canRight = false;
+        }
+        else canRight = true;
+        if (xPos - 1 < 0 || arrayContainer.GameArray[xPos - 1, YPos] != null)
+        {
+            canLeft = false;
+        }
+        else canLeft = true;
+        if (yPos - 1 < 0 || arrayContainer.GameArray[xPos, YPos - 1] != null)
+        {
+            canUp = false;
+        }
+        else canUp = true;
+        if (yPos + 1 > arrayContainer.RowsNum - 1 || arrayContainer.GameArray[xPos, YPos + 1] != null)
+        {
+            canDown = false;
+        }
+        else canDown = true;
     }
 }
