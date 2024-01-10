@@ -7,21 +7,20 @@ using static UnityEditor.Progress;
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private float spriteSize = 1.0f;
-    public int rowsNum;
-    public int colsNum;
+    private int rowsNum;
+    private int colsNum;
 
-    public Block[,] gameArray;
-
-    private bool canLeft;
-    private bool canRight;
-    private bool canTop;
-    private bool canBot;
+    private Block[,] gameArray;
 
     private Vector3 origin;
 
     public Block player;
 
     public Block box;
+
+    public Block[,] GameArray => gameArray;
+    public int RowsNum => rowsNum;
+    public int ColsNum => colsNum;
 
     void Awake()
     {
@@ -38,73 +37,32 @@ public class ObjectManager : MonoBehaviour
 
         origin = new Vector3(-screenWidth + screenGap, screenHeight);
 
-        gameArray[player.XPos, player.YPos] = player;
-        player.XPos = player.XPos;
-        player.YPos = player.YPos;
-        player.transform.position = new Vector3(origin.x + spriteSize / 2 + player.XPos * spriteSize, origin.y - spriteSize / 2 - player.YPos * spriteSize, 1);
+        CreateBlock(player, 0, 0);
 
         CreateBlock(box, 5, 5);
+        CreateBlock(box, 2,2);
     }
     void Update()
     {
-        BoundingArea();
         PlayerMoveBlock();
         PlayerMovement();
-
-    }
-    private void BoundingArea()
-    {
-        if (player.XPos - 1 < 0 || gameArray[player.XPos - 1, player.YPos] != null) 
-        {
-            canLeft = false;
-        }
-        else
-        {
-            canLeft = true;
-        }
-        if (player.YPos - 1 < 0 || gameArray[player.XPos, player.YPos - 1] != null)
-        {
-            canTop = false;
-        }
-        else
-        {
-            canTop = true;
-        }
-        if (player.XPos + 1 > colsNum - 1 || gameArray[player.XPos + 1, player.YPos] != null)
-        {
-            canRight = false;
-        }
-        else
-        {
-            canRight = true;
-        }
-        if (player.YPos + 1 > rowsNum - 1 || gameArray[player.XPos, player.YPos + 1] != null)
-        {
-            canBot = false;
-        }
-        else
-        {
-            canBot = true;
-        }
     }
 
     public void PlayerMovement(){
-        player.PrevX =  player.XPos;
-        player.PrevY = player.YPos;
 
-        if (Input.GetKeyDown(KeyCode.A) && canLeft)
+        if (Input.GetKeyDown(KeyCode.A) && player.CanLeft)
         {
             player.XPos -= 1;
         }
-        if (Input.GetKeyDown(KeyCode.S) && canBot)
+        if (Input.GetKeyDown(KeyCode.S) && player.CanDown)
         {
             player.YPos += 1;
         }
-        if (Input.GetKeyDown(KeyCode.W) && canTop)
+        if (Input.GetKeyDown(KeyCode.W) && player.CanUp)
         {
             player.YPos -= 1;
         }
-        if (Input.GetKeyDown(KeyCode.D) && canRight)
+        if (Input.GetKeyDown(KeyCode.D) && player.CanRight)
         {
             player.XPos += 1;
         }
@@ -117,28 +75,32 @@ public class ObjectManager : MonoBehaviour
         if (player.XPos + 1 < colsNum - 1 && 
             gameArray[player.XPos + 1, player.YPos] != null && 
             gameArray[player.XPos + 1, player.YPos].GetType() == typeof(Block) && 
-            Input.GetKeyDown(KeyCode.D))
+            Input.GetKeyDown(KeyCode.D) &&
+            gameArray[player.XPos + 1, player.YPos].CanRight)
         {
             MoveUpdateBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
         }
         if (player.XPos - 1 >= 0 &&
             gameArray[player.XPos - 1, player.YPos] != null &&
             gameArray[player.XPos - 1, player.YPos].GetType() == typeof(Block) && 
-            Input.GetKeyDown(KeyCode.A))
+            Input.GetKeyDown(KeyCode.A) &&
+            gameArray[player.XPos - 1, player.YPos].CanLeft)
         {
             MoveUpdateBlock(gameArray[player.XPos - 1, player.YPos], KeyCode.A);
         }
         if (player.YPos + 1 < rowsNum - 1 &&
             gameArray[player.XPos, player.YPos + 1] != null &&
             gameArray[player.XPos, player.YPos + 1].GetType() == typeof(Block) && 
-            Input.GetKeyDown(KeyCode.S))
+            Input.GetKeyDown(KeyCode.S) &&
+            gameArray[player.XPos, player.YPos + 1].CanDown)
         {
             MoveUpdateBlock(gameArray[player.XPos, player.YPos + 1], KeyCode.S);
         }
         if (player.YPos - 1 >= 0 &&
             gameArray[player.XPos, player.YPos - 1] != null &&
             gameArray[player.XPos, player.YPos - 1].GetType() == typeof(Block) && 
-            Input.GetKeyDown(KeyCode.W))
+            Input.GetKeyDown(KeyCode.W) &&
+            gameArray[player.XPos, player.YPos - 1].CanUp)
         {
             MoveUpdateBlock(gameArray[player.XPos, player.YPos - 1], KeyCode.W);
         }
@@ -146,11 +108,15 @@ public class ObjectManager : MonoBehaviour
 
     private void CreateBlock(Block item, int xPos, int yPos)
     {
-        Block currentCube = Instantiate(item, new Vector3(origin.x + spriteSize / 2 + item.XPos * spriteSize, origin.y - spriteSize / 2 - item.YPos * spriteSize, 1), Quaternion.identity);
+        Block currentCube = Instantiate(item);
         gameArray[xPos, yPos] = currentCube;
-        currentCube.PrevX = currentCube.XPos = xPos;
-        currentCube.PrevY = currentCube.YPos = yPos;
-
+        currentCube.XPos = xPos;
+        currentCube.YPos = yPos;
+        MoveUpdateBlock(currentCube);
+        if(item.name == "Player")
+        {
+            player = item;
+        }
     }
 
     private void MoveUpdateBlock(Block item)
