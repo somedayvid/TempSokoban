@@ -7,6 +7,8 @@ using static UnityEditor.Progress;
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private float spriteSize = 1.0f;
+    
+    //Game grid creation
     private int rowsNum;
     private int colsNum;
 
@@ -14,14 +16,17 @@ public class ObjectManager : MonoBehaviour
 
     private Vector3 origin;
 
-    private Block player;
-
+    //Block prefabs
     public Block pushBlock;
 
     public Block pullBlock;
 
     public Block playerPrefab;
 
+    
+    private Block player;
+
+    //Public properties
     public Block[,] GameArray => gameArray;
     public int RowsNum => rowsNum;
     public int ColsNum => colsNum;
@@ -123,9 +128,9 @@ public class ObjectManager : MonoBehaviour
     /// <summary>
     /// Instantiates and positions the newly created block
     /// </summary>
-    /// <param name="item"></param>
-    /// <param name="xPos"></param>
-    /// <param name="yPos"></param>
+    /// <param name="item">The prefab to be instantied as a Block</param>
+    /// <param name="xPos">The x position on the grid</param>
+    /// <param name="yPos">The y position on the grid</param>
     private void CreateBlock(Block item, int xPos, int yPos)
     {
         Block currentCube = Instantiate(item);
@@ -139,6 +144,10 @@ public class ObjectManager : MonoBehaviour
         MovePushBlock(currentCube);
     }
 
+    /// <summary>
+    /// Moves the block to its new position and updates its properties
+    /// </summary>
+    /// <param name="item">Block to be moved and updated</param>
     private void MovePushBlock(Block item)
     {
         if (item.XPos != item.PrevX || item.YPos != item.PrevY)
@@ -151,6 +160,11 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the block properties depending on player input
+    /// </summary>
+    /// <param name="item">Block to be updated</param>
+    /// <param name="direction">Direction the block should be pushed in</param>
     private void MovePushBlock(Block item, KeyCode direction)
     {
         switch (direction)
@@ -169,10 +183,5 @@ public class ObjectManager : MonoBehaviour
                 break;
         }
         MovePushBlock(item);
-    }
-
-    private void OnDrawGizmos()
-    {
-        
     }
 }
