@@ -67,10 +67,12 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        xPos = 0;
+        yPos = 0;
         arrayContainer = GameObject.Find("StageManager").GetComponent<ObjectManager>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (xPos + 1 > arrayContainer.ColsNum - 1 || arrayContainer.GameArray[xPos + 1, YPos] != null)
         {
