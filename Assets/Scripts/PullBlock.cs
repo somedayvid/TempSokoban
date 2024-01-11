@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Block))]
-
 public class PullBlock : Block
 {
 
@@ -16,6 +14,6 @@ public class PullBlock : Block
     // Update is called once per frame
     void Update()
     {
- 
+        base.Update();
     }
 }
