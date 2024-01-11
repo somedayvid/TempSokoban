@@ -14,9 +14,13 @@ public class ObjectManager : MonoBehaviour
 
     private Vector3 origin;
 
-    public Block player;
+    private Block player;
 
-    public Block box;
+    public Block pushBlock;
+
+    public Block pullBlock;
+
+    public Block playerPrefab;
 
     public Block[,] GameArray => gameArray;
     public int RowsNum => rowsNum;
@@ -37,19 +41,22 @@ public class ObjectManager : MonoBehaviour
 
         origin = new Vector3(-screenWidth + screenGap, screenHeight);
 
-        CreateBlock(player, 0, 0);
+        CreateBlock(playerPrefab, 1, 1);
 
-        CreateBlock(box, 5, 5);
-        CreateBlock(box, 2,2);
+        CreateBlock(pushBlock, 5, 5);
+        CreateBlock(pushBlock, 2, 2);
+        CreateBlock(pullBlock, 6, 6);
     }
     void Update()
     {
-        PlayerMoveBlock();
+        PlayerPushBlock();
         PlayerMovement();
     }
 
+    /// <summary>
+    /// Basic Player movement using WASD keys
+    /// </summary>
     public void PlayerMovement(){
-
         if (Input.GetKeyDown(KeyCode.A) && player.CanLeft)
         {
             player.XPos -= 1;
@@ -67,59 +74,72 @@ public class ObjectManager : MonoBehaviour
             player.XPos += 1;
         }
 
-        MoveUpdateBlock(player);
+        MovePushBlock(player);
     }
 
-    public void PlayerMoveBlock()
+    /// <summary>
+    /// Depending on the blocks position relative to the player and its environment it will move around the grid
+    /// </summary>
+    public void PlayerPushBlock()
     {
-        if (player.XPos + 1 < colsNum - 1 && 
-            gameArray[player.XPos + 1, player.YPos] != null && 
-            gameArray[player.XPos + 1, player.YPos].GetType() == typeof(Block) && 
-            Input.GetKeyDown(KeyCode.D) &&
-            gameArray[player.XPos + 1, player.YPos].CanRight)
+        //Checks right direction pushing
+        if (player.XPos + 1 < colsNum - 1 &&                                            //Makes sure new position is within index
+            gameArray[player.XPos + 1, player.YPos] != null &&                          //Makes sure position player is pushing towards is not null
+            gameArray[player.XPos + 1, player.YPos].GetType() == typeof(PushBlock) &&   //Makes sure position player is pushing towards contains a pushable block
+            Input.GetKeyDown(KeyCode.D) &&                                              //Makes sure that the player has pressed the D key to move right
+            gameArray[player.XPos + 1, player.YPos].CanRight)                           //Makes sure that the pushable block can move to the right without inteference
         {
-            MoveUpdateBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+            MovePushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
         }
+        //Checks left direction pushing
         if (player.XPos - 1 >= 0 &&
             gameArray[player.XPos - 1, player.YPos] != null &&
-            gameArray[player.XPos - 1, player.YPos].GetType() == typeof(Block) && 
+            gameArray[player.XPos - 1, player.YPos].GetType() == typeof(PushBlock) && 
             Input.GetKeyDown(KeyCode.A) &&
             gameArray[player.XPos - 1, player.YPos].CanLeft)
         {
-            MoveUpdateBlock(gameArray[player.XPos - 1, player.YPos], KeyCode.A);
+            MovePushBlock(gameArray[player.XPos - 1, player.YPos], KeyCode.A);
         }
+        //Checks down direction pushing
         if (player.YPos + 1 < rowsNum - 1 &&
             gameArray[player.XPos, player.YPos + 1] != null &&
-            gameArray[player.XPos, player.YPos + 1].GetType() == typeof(Block) && 
+            gameArray[player.XPos, player.YPos + 1].GetType() == typeof(PushBlock) &&
             Input.GetKeyDown(KeyCode.S) &&
             gameArray[player.XPos, player.YPos + 1].CanDown)
         {
-            MoveUpdateBlock(gameArray[player.XPos, player.YPos + 1], KeyCode.S);
+            MovePushBlock(gameArray[player.XPos, player.YPos + 1], KeyCode.S);
         }
+        //Checks up direction pushing
         if (player.YPos - 1 >= 0 &&
             gameArray[player.XPos, player.YPos - 1] != null &&
-            gameArray[player.XPos, player.YPos - 1].GetType() == typeof(Block) && 
+            gameArray[player.XPos, player.YPos - 1].GetType() == typeof(PushBlock) && 
             Input.GetKeyDown(KeyCode.W) &&
             gameArray[player.XPos, player.YPos - 1].CanUp)
         {
-            MoveUpdateBlock(gameArray[player.XPos, player.YPos - 1], KeyCode.W);
+            MovePushBlock(gameArray[player.XPos, player.YPos - 1], KeyCode.W);
         }
     }
 
+    /// <summary>
+    /// Instantiates and positions the newly created block
+    /// </summary>
+    /// <param name="item"></param>
+    /// <param name="xPos"></param>
+    /// <param name="yPos"></param>
     private void CreateBlock(Block item, int xPos, int yPos)
     {
         Block currentCube = Instantiate(item);
+        if (currentCube.name == "Player(Clone)")
+        {
+            player = currentCube;
+        }
         gameArray[xPos, yPos] = currentCube;
         currentCube.XPos = xPos;
         currentCube.YPos = yPos;
-        MoveUpdateBlock(currentCube);
-        if(item.name == "Player")
-        {
-            player = item;
-        }
+        MovePushBlock(currentCube);
     }
 
-    private void MoveUpdateBlock(Block item)
+    private void MovePushBlock(Block item)
     {
         if (item.XPos != item.PrevX || item.YPos != item.PrevY)
         {
@@ -131,7 +151,7 @@ public class ObjectManager : MonoBehaviour
         }
     }
 
-    private void MoveUpdateBlock(Block item, KeyCode direction)
+    private void MovePushBlock(Block item, KeyCode direction)
     {
         switch (direction)
         {
@@ -148,8 +168,7 @@ public class ObjectManager : MonoBehaviour
                 item.XPos++;
                 break;
         }
-
-        MoveUpdateBlock(item);
+        MovePushBlock(item);
     }
 
     private void OnDrawGizmos()
