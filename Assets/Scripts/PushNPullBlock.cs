@@ -2,6 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PullBlock : Block
+public class PushNPullBlock : Block
 {
 }

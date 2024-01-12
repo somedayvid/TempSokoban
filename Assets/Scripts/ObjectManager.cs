@@ -23,6 +23,8 @@ public class ObjectManager : MonoBehaviour
 
     public Block playerPrefab;
 
+    public Block pushNPullBlock;
+
     
     private Block player;
 
@@ -92,10 +94,19 @@ public class ObjectManager : MonoBehaviour
         if (player.XPos + 1 < colsNum - 1 &&                                             //Makes sure new position is within index
              gameArray[player.XPos + 1, player.YPos] != null &&                          //Makes sure position player is pushing towards is not null
              gameArray[player.XPos + 1, player.YPos].GetType() == typeof(PushBlock) &&   //Makes sure position player is pushing towards contains a pushable block
-             Input.GetKeyDown(KeyCode.D) &&                                              //Makes sure that the player has pressed the D key to move right
-             gameArray[player.XPos + 1, player.YPos].CanRight)                           //Makes sure that the pushable block can move to the right without inteference
+             Input.GetKeyDown(KeyCode.D))                                                //Makes sure that the player has pressed the D key to move right                    
         {
-            PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+            if (gameArray[player.XPos + 1, player.YPos].CanRight)                        //Makes sure that the pushable block can move to the right without inteference
+            {
+                PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+
+            }
+            else if (!gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
+            {
+                gameArray[player.XPos + 1, player.YPos] = null;
+                gameArray[player.XPos + 2, player.YPos] = null;
+                CreateBlock(pushNPullBlock, player.XPos + 2, player.YPos);            
+            }
         }
         //Checks left direction pushing
         if (player.XPos - 1 >= 0 &&
@@ -105,6 +116,17 @@ public class ObjectManager : MonoBehaviour
             gameArray[player.XPos - 1, player.YPos].CanLeft)
         {
             PushBlock(gameArray[player.XPos - 1, player.YPos], KeyCode.A);
+            if (gameArray[player.XPos + 1, player.YPos].CanRight)                        //Makes sure that the pushable block can move to the right without inteference
+            {
+                PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+
+            }
+            else if (!gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
+            {
+                gameArray[player.XPos + 1, player.YPos] = null;
+                gameArray[player.XPos + 2, player.YPos] = null;
+                CreateBlock(pushNPullBlock, player.XPos + 2, player.YPos);
+            }
         }
         //Checks down direction pushing
         if (player.YPos + 1 < rowsNum - 1 &&
@@ -114,6 +136,17 @@ public class ObjectManager : MonoBehaviour
             gameArray[player.XPos, player.YPos + 1].CanDown)
         {
             PushBlock(gameArray[player.XPos, player.YPos + 1], KeyCode.S);
+            if (gameArray[player.XPos + 1, player.YPos].CanRight)                        //Makes sure that the pushable block can move to the right without inteference
+            {
+                PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+
+            }
+            else if (!gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
+            {
+                gameArray[player.XPos + 1, player.YPos] = null;
+                gameArray[player.XPos + 2, player.YPos] = null;
+                CreateBlock(pushNPullBlock, player.XPos + 2, player.YPos);
+            }
         }
         //Checks up direction pushing
         if (player.YPos - 1 >= 0 &&
@@ -123,6 +156,17 @@ public class ObjectManager : MonoBehaviour
             gameArray[player.XPos, player.YPos - 1].CanUp)
         {
             PushBlock(gameArray[player.XPos, player.YPos - 1], KeyCode.W);
+            if (gameArray[player.XPos + 1, player.YPos].CanRight)                        //Makes sure that the pushable block can move to the right without inteference
+            {
+                PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
+
+            }
+            else if (!gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
+            {
+                gameArray[player.XPos + 1, player.YPos] = null;
+                gameArray[player.XPos + 2, player.YPos] = null;
+                CreateBlock(pushNPullBlock, player.XPos + 2, player.YPos);
+            }
         }
     }
 
