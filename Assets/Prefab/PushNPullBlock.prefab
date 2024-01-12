@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7519930363671935039}
   - component: {fileID: 156313757197508194}
+  - component: {fileID: 6307344323676386607}
   m_Layer: 0
   m_Name: PushNPullBlock
   m_TagString: Untagged
@@ -84,3 +85,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6307344323676386607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5430992047181555026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd4f66462c74d114f80fe0cd921c34d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
