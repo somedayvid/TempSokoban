@@ -89,7 +89,7 @@ public class ObjectManager : MonoBehaviour
     public void PlayerPushBlock()
     {
         //Checks right direction pushing
-        if (player.XPos + 1 < colsNum - 1 &&                                            //Makes sure new position is within index
+        if (player.XPos + 1 < colsNum - 1 &&                                             //Makes sure new position is within index
              gameArray[player.XPos + 1, player.YPos] != null &&                          //Makes sure position player is pushing towards is not null
              gameArray[player.XPos + 1, player.YPos].GetType() == typeof(PushBlock) &&   //Makes sure position player is pushing towards contains a pushable block
              Input.GetKeyDown(KeyCode.D) &&                                              //Makes sure that the player has pressed the D key to move right
@@ -128,10 +128,10 @@ public class ObjectManager : MonoBehaviour
 
     public void PlayerPullBlock()
     {
-        if (player.XPos - 2 > 0 &&
-            gameArray[player.XPos - 2, player.YPos] != null &&
-            gameArray[player.XPos - 2, player.YPos].GetType() == typeof(PullBlock) &&
-            Input.GetKeyDown(KeyCode.D))
+        if (player.XPos - 2 > 0 &&                                                          //Makes sure checked position is within range
+            gameArray[player.XPos - 2, player.YPos] != null &&                              //
+            gameArray[player.XPos - 2, player.YPos].GetType() == typeof(PullBlock) &&       //
+            Input.GetKeyDown(KeyCode.D))                                                    //
         {
             PushBlock(gameArray[player.XPos - 2, player.YPos], KeyCode.D);
         }
