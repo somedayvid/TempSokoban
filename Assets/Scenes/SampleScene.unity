@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 49072591}
   - component: {fileID: 49072590}
-  - component: {fileID: 49072589}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -141,18 +140,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &49072589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 49072588}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7d3d0954eb35724cbfaafacd64f5dde, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &49072590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,7 +158,6 @@ MonoBehaviour:
   pushBlock: {fileID: -6007928270072279463, guid: a141358280ea2fc4a97949027b684f9b, type: 3}
   pullBlock: {fileID: -2484272541493885794, guid: 727483a848e7272468bba661e2e54995, type: 3}
   pushNPullBlock: {fileID: 6307344323676386607, guid: c359913b638fdb742b2bc4dd30d98c73, type: 3}
-  currentLevel: 0
   levelLoaded: 0
 --- !u!4 &49072591
 Transform:
@@ -224,7 +210,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.9150943, g: 0.9150943, b: 0.9150943, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -310,6 +296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteSize: 1
+  levelStorage: {fileID: 49072590}
   pushBlock: {fileID: -6007928270072279463, guid: a141358280ea2fc4a97949027b684f9b, type: 3}
   pullBlock: {fileID: -2484272541493885794, guid: 727483a848e7272468bba661e2e54995, type: 3}
   playerPrefab: {fileID: 4418462821795116861, guid: 847ab7c23debcd44ea1923612ca7788e, type: 3}

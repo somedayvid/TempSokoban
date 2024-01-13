@@ -5,6 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     private ObjectManager arrayContainer;
+    private LevelStorage levelStorage;
 
     private int xPos;
     private int yPos;
@@ -70,11 +71,12 @@ public class Block : MonoBehaviour
         xPos = 0;
         yPos = 0;
         arrayContainer = GameObject.Find("StageManager").GetComponent<ObjectManager>();
+        levelStorage = GameObject.Find("LevelManager").GetComponent<LevelStorage>();
     }
 
     protected virtual void Update()
     {
-        if (xPos + 1 > arrayContainer.ColsNum - 1 || arrayContainer.GameArray[xPos + 1, YPos] != null)
+        if (xPos + 1 > levelStorage.Cols - 1 || arrayContainer.GameArray[xPos + 1, YPos] != null)
         {
             canRight = false;
         }
@@ -89,7 +91,7 @@ public class Block : MonoBehaviour
             canUp = false;
         }
         else canUp = true;
-        if (yPos + 1 > arrayContainer.RowsNum - 1 || arrayContainer.GameArray[xPos, YPos + 1] != null)
+        if (yPos + 1 > levelStorage.Rows - 1 || arrayContainer.GameArray[xPos, YPos + 1] != null)
         {
             canDown = false;
         }

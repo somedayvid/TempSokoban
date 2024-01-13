@@ -7,6 +7,7 @@ using static UnityEditor.Progress;
 public class ObjectManager : MonoBehaviour
 {
     [SerializeField] private float spriteSize = 1.0f;
+    public LevelStorage levelStorage;
 
     //Game grid creation
     private int rowsNum;
@@ -44,7 +45,7 @@ public class ObjectManager : MonoBehaviour
 
         float screenGap = (screenWidth * 2 - colsNum) / 2;
 
-        gameArray = new Block[colsNum, rowsNum];
+        gameArray = new Block[levelStorage.Cols, levelStorage.Rows];
 
         origin = new Vector3(-screenWidth + screenGap, screenHeight);
     }
@@ -86,7 +87,7 @@ public class ObjectManager : MonoBehaviour
     public void PlayerPushBlock()
     {
         //Checks right direction pushing
-        if (player.XPos + 1 < colsNum - 1 &&
+        if (player.XPos + 1 < levelStorage.Cols - 1 &&
              gameArray[player.XPos + 1, player.YPos] != null &&
              Input.GetKeyDown(KeyCode.D) &&
              (gameArray[player.XPos + 1, player.YPos].GetType() == typeof(PushBlock) || gameArray[player.XPos + 1, player.YPos].GetType() == typeof(PushNPullBlock)))
@@ -96,7 +97,7 @@ public class ObjectManager : MonoBehaviour
                 PushBlock(gameArray[player.XPos + 1, player.YPos], KeyCode.D);
 
             }
-            else if (player.XPos + 2 < colsNum - 1 && !gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
+            else if (player.XPos + 2 < levelStorage.Cols - 1 && !gameArray[player.XPos + 1, player.YPos].CanRight && gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock))
             {
                 Destroy(gameArray[player.XPos + 1, player.YPos].gameObject);
                 Destroy(gameArray[player.XPos + 2, player.YPos].gameObject);
@@ -130,7 +131,7 @@ public class ObjectManager : MonoBehaviour
             }
         }
         //Checks down direction pushing
-        if (player.YPos + 1 < rowsNum - 1 &&
+        if (player.YPos + 1 < levelStorage.Rows - 1 &&
             gameArray[player.XPos, player.YPos + 1] != null &&
             Input.GetKeyDown(KeyCode.S) &&
             (gameArray[player.XPos, player.YPos + 1].GetType() == typeof(PushBlock) || gameArray[player.XPos, player.YPos + 1].GetType() == typeof(PushNPullBlock)))
@@ -139,7 +140,7 @@ public class ObjectManager : MonoBehaviour
             {
                 PushBlock(gameArray[player.XPos, player.YPos + 1], KeyCode.S);
             }
-            else if (player.YPos + 2 < rowsNum - 1 && !gameArray[player.XPos, player.YPos + 1].CanDown && gameArray[player.XPos, player.YPos + 2].GetType() == typeof(PullBlock))
+            else if (player.YPos + 2 < levelStorage.Rows - 1 && !gameArray[player.XPos, player.YPos + 1].CanDown && gameArray[player.XPos, player.YPos + 2].GetType() == typeof(PullBlock))
             {
                 Destroy(gameArray[player.XPos, player.YPos + 1].gameObject);
                 Destroy(gameArray[player.XPos, player.YPos + 2].gameObject);
@@ -186,7 +187,7 @@ public class ObjectManager : MonoBehaviour
         {
             PushBlock(gameArray[player.XPos - 2, player.YPos], KeyCode.D);
         }
-        if (player.XPos + 2 < colsNum - 1 &&
+        if (player.XPos + 2 < levelStorage.Cols - 1 &&
             gameArray[player.XPos + 2, player.YPos] != null &&
             Input.GetKeyDown(KeyCode.A) &&
             (gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PullBlock) || gameArray[player.XPos + 2, player.YPos].GetType() == typeof(PushNPullBlock)))
@@ -201,7 +202,7 @@ public class ObjectManager : MonoBehaviour
         {
             PushBlock(gameArray[player.XPos, player.YPos - 2], KeyCode.S);
         }
-        if (player.YPos + 2 < rowsNum - 1 &&
+        if (player.YPos + 2 < levelStorage.Rows - 1 &&
             gameArray[player.XPos, player.YPos + 2] != null &&
             Input.GetKeyDown(KeyCode.W) &&
             (gameArray[player.XPos, player.YPos + 2].GetType() == typeof(PullBlock) || gameArray[player.XPos, player.YPos + 2].GetType() == typeof(PushNPullBlock)))
