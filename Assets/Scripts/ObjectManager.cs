@@ -47,13 +47,8 @@ public class ObjectManager : MonoBehaviour
         gameArray = new Block[colsNum, rowsNum];
 
         origin = new Vector3(-screenWidth + screenGap, screenHeight);
-
-        CreateBlock(playerPrefab, 1, 1);
-
-        CreateBlock(pushBlock, 5, 5);
-        CreateBlock(pushBlock, 2, 2);
-        CreateBlock(pullBlock, 6, 6);
     }
+
     void Update()
     {
         PlayerPushBlock();
@@ -221,7 +216,7 @@ public class ObjectManager : MonoBehaviour
     /// <param name="item">The prefab to be instantied as a Block</param>
     /// <param name="xPos">The x position on the grid</param>
     /// <param name="yPos">The y position on the grid</param>
-    private void CreateBlock(Block item, int xPos, int yPos)
+    public void CreateBlock(Block item, int xPos, int yPos)
     {
         Block currentCube = Instantiate(item);
         if (currentCube.name == "Player(Clone)")
