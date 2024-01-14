@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectManager: {fileID: 1606294002}
-  wall: {fileID: 6158155623279122041, guid: 5b9cbdfb32ffe4a428d192ff01f75d1b, type: 3}
+  wall: {fileID: -8884272022172056071, guid: 5b9cbdfb32ffe4a428d192ff01f75d1b, type: 3}
   player: {fileID: 4418462821795116861, guid: 847ab7c23debcd44ea1923612ca7788e, type: 3}
   pushBlock: {fileID: -6007928270072279463, guid: a141358280ea2fc4a97949027b684f9b, type: 3}
   pullBlock: {fileID: -2484272541493885794, guid: 727483a848e7272468bba661e2e54995, type: 3}
@@ -299,7 +299,6 @@ MonoBehaviour:
   levelStorage: {fileID: 49072590}
   pushBlock: {fileID: -6007928270072279463, guid: a141358280ea2fc4a97949027b684f9b, type: 3}
   pullBlock: {fileID: -2484272541493885794, guid: 727483a848e7272468bba661e2e54995, type: 3}
-  playerPrefab: {fileID: 4418462821795116861, guid: 847ab7c23debcd44ea1923612ca7788e, type: 3}
   pushNPullBlock: {fileID: 6307344323676386607, guid: c359913b638fdb742b2bc4dd30d98c73, type: 3}
 --- !u!4 &1606294003
 Transform:

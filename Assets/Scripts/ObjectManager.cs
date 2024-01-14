@@ -22,8 +22,6 @@ public class ObjectManager : MonoBehaviour
 
     public Block pullBlock;
 
-    public Block playerPrefab;
-
     public Block pushNPullBlock;
 
 
@@ -31,8 +29,6 @@ public class ObjectManager : MonoBehaviour
 
     //Public properties
     public Block[,] GameArray => gameArray;
-    public int RowsNum => rowsNum;
-    public int ColsNum => colsNum;
 
     void Awake()
     {
