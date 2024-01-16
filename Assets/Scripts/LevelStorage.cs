@@ -17,51 +17,84 @@ public class LevelStorage : MonoBehaviour
     private int currentLevel = 1;
     public bool levelLoaded = false;
 
-    private int rows;
-    private int columns;
+    private int currentRows;
+    private int currentColumns;
 
     public Dictionary<int, int[,]> levelDict = new Dictionary<int, int[,]>();
-    public int Rows => rows;
-    public int Cols => columns;
 
-    //template
-    //private int[,] level3 =
-    //{ { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //      { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-    //    };
+    public Dictionary<int, int[,]> winPosDict = new Dictionary<int, int[,]>();
+
+    public int Rows => currentRows;
+    public int Cols => currentColumns;
+
     public int[,] level1 = 
-        { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 2, 2},
-          { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 2, 2},
+        { { 2, 2, 2, 2, 2, 2},
+          { 2, 3, 0, 0, 3, 2},
+          { 2, 1, 3, 0, 0, 2},
+          { 2, 3, 0, 0, 3, 2},
+          { 2, 2, 2, 2, 2, 2},
         };
+
+    public int[,] level2 =
+    {
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
+        {2, 1, 0, 0, 3, 0, 0, 4, 0, 2 },
+        {2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
+    };
+
+    public int[,] level3 =
+{
+
+    };
+
+    public int[,] level4 =
+{
+
+    };
+
+    public int[,] level5 =
+{
+
+    };
+
+    public int[,] level1Win =
+    {
+        {5, 2},
+        {2, 1},
+        {1,1 }
+    };
+
+    public int[,] level2Win =
+    {
+        {3, 1}
+    };
 
     private void Awake()
     {
         levelDict.Add(1, level1);
-        rows = level1.GetLength(0);
-        columns = level1.GetLength(1);
+        levelDict.Add(2, level2);
+        levelDict.Add(3, level3);
+        levelDict.Add(4, level4);
+        levelDict.Add(5, level5);
+
+        winPosDict.Add(1, level1Win);
+        winPosDict.Add(2, level2Win);
     }
 
     void Update()
     {
+        LevelLoading();
+        WinCondition();
+    }
+
+    private void LevelLoading()
+    {
         if (!levelLoaded)
         {
             int[,] currentStage = levelDict[currentLevel];
+            int rows = currentRows = currentStage.GetLength(0);
+            int columns = currentColumns = currentStage.GetLength(1);
+            objectManager.CreateGameArray(columns, rows);
             for (int j = 0; j < rows; j++)
             {
                 for (int i = 0; i < columns; i++)
@@ -88,5 +121,12 @@ public class LevelStorage : MonoBehaviour
             }
             levelLoaded = true;
         }
+    }
+
+    private void WinCondition()
+    {
+        int[,] currentWinPos = winPosDict[currentLevel];
+
+        Debug.Log(currentWinPos.GetLength(0));
     }
 }

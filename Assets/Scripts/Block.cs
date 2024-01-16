@@ -68,6 +68,8 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
+        prevX = -1;
+        prevY = -1;
         xPos = 0;
         yPos = 0;
         arrayContainer = GameObject.Find("StageManager").GetComponent<ObjectManager>();

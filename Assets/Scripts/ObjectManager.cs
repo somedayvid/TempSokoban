@@ -10,9 +10,6 @@ public class ObjectManager : MonoBehaviour
     public LevelStorage levelStorage;
 
     //Game grid creation
-    private int rowsNum;
-    private int colsNum;
-
     private Block[,] gameArray;
 
     private Vector3 origin;
@@ -27,30 +24,33 @@ public class ObjectManager : MonoBehaviour
 
     private Block player;
 
+    public Transform wallContainer;
+
     //Public properties
     public Block[,] GameArray => gameArray;
 
     void Awake()
     {
-        Camera camera = Camera.main;
-        float screenHeight = camera.orthographicSize;
-        float screenWidth = screenHeight * camera.aspect;
+        //Camera camera = Camera.main;
+        //float screenHeight = camera.orthographicSize;
+        //float screenWidth = screenHeight * camera.aspect;
 
-        rowsNum = (int)(Mathf.Floor(screenHeight / spriteSize) * 2);
-        colsNum = (int)Mathf.Floor(screenWidth / spriteSize) * 2;
+        ////rowsNum = (int)(Mathf.Floor(screenHeight / spriteSize) * 2);
+        //int colsNum = (int)Mathf.Floor(screenWidth / spriteSize) * 2;
 
-        float screenGap = (screenWidth * 2 - colsNum) / 2;
+        //float screenGap = (screenWidth * 2 - colsNum) / 2;
 
-        gameArray = new Block[levelStorage.Cols, levelStorage.Rows];
-
-        origin = new Vector3(-screenWidth + screenGap, screenHeight);
+        //origin = new Vector3(-screenWidth + screenGap, screenHeight);
     }
 
     void Update()
     {
-        PlayerPushBlock();
-        PlayerMovement();
-        PlayerPullBlock();
+        if (levelStorage.levelLoaded)
+        {
+            PlayerPushBlock();
+            PlayerMovement();
+            PlayerPullBlock();
+        }
     }
 
     /// <summary>
@@ -215,12 +215,20 @@ public class ObjectManager : MonoBehaviour
     /// <param name="yPos">The y position on the grid</param>
     public void CreateBlock(Block item, int xPos, int yPos)
     {
-        Block currentCube = Instantiate(item);
-        if (currentCube.name == "Player(Clone)")
+        Block currentCube = item;
+
+        if (currentCube.name == "Block")
         {
-            player = currentCube;
+            currentCube = Instantiate(item, wallContainer);
         }
-        gameArray[xPos, yPos] = currentCube;
+        else
+        {
+            currentCube = Instantiate(item);
+            if(currentCube.name == "Player(Clone)")
+            {
+                player = currentCube;
+            }
+        }
         currentCube.XPos = xPos;
         currentCube.YPos = yPos;
         MoveBlock(currentCube);
@@ -234,12 +242,20 @@ public class ObjectManager : MonoBehaviour
     {
         if (item.XPos != item.PrevX || item.YPos != item.PrevY)
         {
-            gameArray[item.PrevX, item.PrevY] = null;
-            gameArray[item.XPos, item.YPos] = item;
+            if(item.PrevX >= 0 && item.PrevY >= 0)
+            {
+                gameArray[item.PrevX, item.PrevY] = null;
+            }
             item.PrevX = item.XPos;
             item.PrevY = item.YPos;
+            gameArray[item.XPos, item.YPos] = item;
             item.transform.position = new Vector3(origin.x + spriteSize / 2 + item.XPos * spriteSize, origin.y - spriteSize / 2 - item.YPos * spriteSize, 1);
         }
+    }
+
+    public void CreateGameArray(int columns, int rows)
+    {
+        gameArray = new Block[columns, rows];
     }
 
     /// <summary>
