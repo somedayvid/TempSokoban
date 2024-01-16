@@ -126,6 +126,8 @@ public class LevelStorage : MonoBehaviour
     private void WinCondition()
     {
         int[,] currentWinPos = winPosDict[currentLevel];
+        //getlength(0) gets the down wards going 
+        //getlength(1) should ALWAYS return 2
 
         Debug.Log(currentWinPos.GetLength(0));
     }
