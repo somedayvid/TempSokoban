@@ -14,7 +14,7 @@ public class LevelStorage : MonoBehaviour
     public Block pullBlock;
     public Block pushNPullBlock;
 
-    private int currentLevel = 1;
+    private int currentLevel = 0;
     public bool levelLoaded = false;
 
     private int currentRows;
@@ -26,6 +26,22 @@ public class LevelStorage : MonoBehaviour
 
     public int Rows => currentRows;
     public int Cols => currentColumns;
+
+    public int[,] level0 =
+        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
+         { 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 2},
+         { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
+         { 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
+        };
 
     public int[,] level1 = 
         { { 2, 2, 2, 2, 2, 2},
@@ -61,7 +77,7 @@ public class LevelStorage : MonoBehaviour
     {
         {5, 2},
         {2, 1},
-        {1,1 }
+        {1, 1}
     };
 
     public int[,] level2Win =
@@ -71,20 +87,23 @@ public class LevelStorage : MonoBehaviour
 
     private void Awake()
     {
+        levelDict.Add(0, level0);
         levelDict.Add(1, level1);
         levelDict.Add(2, level2);
         levelDict.Add(3, level3);
         levelDict.Add(4, level4);
         levelDict.Add(5, level5);
 
+
         winPosDict.Add(1, level1Win);
         winPosDict.Add(2, level2Win);
     }
 
     void Update()
-    {
+    {        
+        HubWorldLoading();   
         LevelLoading();
-        WinCondition();
+        //WinCondition();
     }
 
     private void LevelLoading()
@@ -120,6 +139,14 @@ public class LevelStorage : MonoBehaviour
                 }
             }
             levelLoaded = true;
+        }
+    }
+
+    private void HubWorldLoading()
+    {
+        if(currentLevel == 0)
+        {
+
         }
     }
 

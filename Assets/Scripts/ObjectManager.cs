@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,18 +30,21 @@ public class ObjectManager : MonoBehaviour
     //Public properties
     public Block[,] GameArray => gameArray;
 
+    public float PlayerX => player.transform.position.x;
+    public float PlayerY => player.transform.position.y;
+
     void Awake()
     {
-        //Camera camera = Camera.main;
-        //float screenHeight = camera.orthographicSize;
-        //float screenWidth = screenHeight * camera.aspect;
+        Camera camera = Camera.main;
+        float screenHeight = camera.orthographicSize;
+        float screenWidth = screenHeight * camera.aspect;
 
         ////rowsNum = (int)(Mathf.Floor(screenHeight / spriteSize) * 2);
-        //int colsNum = (int)Mathf.Floor(screenWidth / spriteSize) * 2;
+        int colsNum = (int)Mathf.Floor(screenWidth / spriteSize) * 2;
 
-        //float screenGap = (screenWidth * 2 - colsNum) / 2;
+        float screenGap = (screenWidth * 2 - colsNum) / 2;
 
-        //origin = new Vector3(-screenWidth + screenGap, screenHeight);
+        origin = new Vector3(-screenWidth + screenGap, screenHeight);
     }
 
     void Update()
