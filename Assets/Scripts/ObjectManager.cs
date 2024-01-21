@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static UnityEditor.Progress;
 
 public class ObjectManager : MonoBehaviour
@@ -260,6 +261,24 @@ public class ObjectManager : MonoBehaviour
     public void CreateGameArray(int columns, int rows)
     {
         gameArray = new Block[columns, rows];
+    }
+
+    public void ClearGameArray()
+    {
+        if (gameArray != null)
+        {
+            for (int j = 0; j < gameArray.GetLength(0); j++)
+            {
+                for (int i = 0; i < gameArray.GetLength(1); i++)
+                {
+                    if (gameArray[j, i] != null)
+                    {
+                        Destroy(gameArray[j, i].gameObject);
+                        gameArray[j, i] = null;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>

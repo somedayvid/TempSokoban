@@ -14,7 +14,7 @@ public class LevelStorage : MonoBehaviour
     public Block pullBlock;
     public Block pushNPullBlock;
 
-    private int currentLevel = 0;
+    private int currentLevel = 1;
     public bool levelLoaded = false;
 
     private int currentRows;
@@ -22,26 +22,8 @@ public class LevelStorage : MonoBehaviour
 
     public Dictionary<int, int[,]> levelDict = new Dictionary<int, int[,]>();
 
-    public Dictionary<int, int[,]> winPosDict = new Dictionary<int, int[,]>();
-
     public int Rows => currentRows;
     public int Cols => currentColumns;
-
-    public int[,] level0 =
-        {{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2},
-         { 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 2},
-         { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 3, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2},
-         { 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2}
-        };
 
     public int[,] level1 = 
         { { 2, 2, 2, 2, 2, 2},
@@ -54,62 +36,63 @@ public class LevelStorage : MonoBehaviour
     public int[,] level2 =
     {
         {2, 2, 2, 2, 2, 2, 2, 2, 2, 2 },
-        {2, 1, 0, 0, 3, 0, 0, 4, 0, 2 },
+        {2, 0, 0, 0, 0, 0, 0, 0, 0, 2 },
+        {2, 3, 3, 0, 0, 0, 0, 0, 0, 2 },
+        {2, 0, 0, 0, 0, 0, 0, 0, 0, 2 },
+        {2, 0, 3, 3, 3, 3, 3, 3, 0, 2 },
+        {2, 0, 3, 3, 3, 3, 3, 3, 0, 2 },
+        {2, 1, 0, 4, 0, 0, 0, 3, 0, 2 },
+        {2, 3, 3, 3, 3, 3, 3, 3, 0, 2 },
+        {2, 3, 3, 3, 3, 3, 3, 3, 0, 2 },
         {2, 2, 2, 2, 2, 2, 2, 2, 2, 2 }
     };
 
     public int[,] level3 =
-{
-
+    {
+        { 2, 2, 2, 2, 2, 2, 2 },
+        { 2, 0, 0, 0, 4, 4, 2 },
+        { 2, 0, 0, 0, 4, 4, 2 },
+        { 2, 4, 3, 0, 3, 3, 2 },
+        { 2, 0, 0, 3, 3, 3, 2 },
+        { 2, 1, 4, 0, 3, 3, 2 },
+        { 2, 2, 2, 2, 2, 2, 2 }
     };
 
     public int[,] level4 =
-{
+    {
 
     };
 
     public int[,] level5 =
-{
-
-    };
-
-    public int[,] level1Win =
     {
-        {5, 2},
-        {2, 1},
-        {1, 1}
-    };
 
-    public int[,] level2Win =
-    {
-        {3, 1}
     };
 
     private void Awake()
     {
-        levelDict.Add(0, level0);
         levelDict.Add(1, level1);
         levelDict.Add(2, level2);
         levelDict.Add(3, level3);
         levelDict.Add(4, level4);
         levelDict.Add(5, level5);
-
-
-        winPosDict.Add(1, level1Win);
-        winPosDict.Add(2, level2Win);
     }
 
     void Update()
-    {        
-        HubWorldLoading();   
+    {         
         LevelLoading();
-        //WinCondition();
+        if (WinCondition())
+        {
+            levelLoaded = false;
+            currentLevel++;
+        }
+        Restart();
     }
 
     private void LevelLoading()
     {
         if (!levelLoaded)
         {
+            objectManager.ClearGameArray();
             int[,] currentStage = levelDict[currentLevel];
             int rows = currentRows = currentStage.GetLength(0);
             int columns = currentColumns = currentStage.GetLength(1);
@@ -142,20 +125,42 @@ public class LevelStorage : MonoBehaviour
         }
     }
 
-    private void HubWorldLoading()
+    private bool WinCondition()
     {
-        if(currentLevel == 0)
-        {
+        bool winFulfilled = false;
 
+        switch (currentLevel)
+        {
+            case 1:
+                if (objectManager.GameArray[4,2] != null && objectManager.GameArray[4, 2].GetType() == typeof(PushBlock))
+                {
+                    winFulfilled = true;
+                }
+                break;
+            case 2:
+                if (objectManager.GameArray[1, 4] != null && objectManager.GameArray[1, 4].GetType() == typeof(PushBlock) &&
+                    objectManager.GameArray[1, 5] != null && objectManager.GameArray[1, 5].GetType() == typeof(PushBlock) &&
+                    objectManager.GameArray[1, 6] != null && objectManager.GameArray[1, 6].GetType() == typeof(PushNPullBlock))
+                {
+                    winFulfilled = true;    
+                }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
         }
+
+        return winFulfilled;
     }
 
-    private void WinCondition()
+    private void Restart()
     {
-        int[,] currentWinPos = winPosDict[currentLevel];
-        //getlength(0) gets the down wards going 
-        //getlength(1) should ALWAYS return 2
-
-        Debug.Log(currentWinPos.GetLength(0));
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            levelLoaded = false;
+        }
     }
 }
