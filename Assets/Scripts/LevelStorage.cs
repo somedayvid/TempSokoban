@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using static UnityEngine.UI.Image;
+using UnityEngine.UI;
 
 public class LevelStorage : MonoBehaviour
 {
@@ -14,8 +15,17 @@ public class LevelStorage : MonoBehaviour
     public Block pullBlock;
     public Block pushNPullBlock;
 
+    //i am crying
+    public Button button1;
+    public Button button2;
+    public Button button3;
+    public Button button4;
+    public Button button5;
+
+    private bool allUnlocked;
+
     private int currentLevel = 0;
-    public bool levelLoaded = false;
+    private bool levelLoaded = false;
 
     private int currentRows;
     private int currentColumns;
@@ -24,6 +34,11 @@ public class LevelStorage : MonoBehaviour
 
     public int Rows => currentRows;
     public int Cols => currentColumns;
+    public bool LevelLoaded
+    {
+        get { return levelLoaded; }
+        set { levelLoaded = value; }
+    }
 
     public int CurrentLevel
     {
@@ -32,12 +47,13 @@ public class LevelStorage : MonoBehaviour
     }
 
     public int[,] level1 = 
-        { { 2, 2, 2, 2, 2, 2},
-          { 2, 3, 0, 0, 3, 2},
-          { 2, 1, 3, 0, 0, 2},
-          { 2, 3, 0, 0, 3, 2},
-          { 2, 2, 2, 2, 2, 2},
-        };
+    { 
+        { 2, 2, 2, 2, 2, 2},
+        { 2, 3, 0, 0, 3, 2},
+        { 2, 1, 3, 0, 0, 2},
+        { 2, 3, 0, 0, 3, 2},
+        { 2, 2, 2, 2, 2, 2},
+    };
 
     public int[,] level2 =
     {
@@ -84,7 +100,8 @@ public class LevelStorage : MonoBehaviour
     }
 
     void Update()
-    {         
+    {
+        LevelUnlocks();
         LevelLoading();
         if (WinCondition())
         {
@@ -171,6 +188,32 @@ public class LevelStorage : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.R))
         {
             levelLoaded = false;
+        }
+    }
+
+    private void LevelUnlocks()
+    {
+        if (!allUnlocked)
+        {
+            switch (currentLevel)
+            {
+                case 2:
+                    button2.interactable = true;
+                    break;
+                case 3:
+                    button3.interactable = true;
+                    break;
+                case 4:
+                    button4.interactable = true;
+                    break;
+                case 5:
+                    button5.interactable = true;
+                    break;
+            }
+            if (button2.interactable == true && button3.interactable == true && button4.interactable == true && button5.interactable == true)
+            {
+                allUnlocked= true;
+            }
         }
     }
 }

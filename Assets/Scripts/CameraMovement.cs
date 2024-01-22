@@ -15,7 +15,7 @@ public class CameraMovement : MonoBehaviour
 
     private void PlayerQuadrantFollow()
     {
-        if (levelStorage.levelLoaded)
+        if (levelStorage.LevelLoaded)
         {
             if (manager.PlayerX > Camera.main.orthographicSize * Camera.main.aspect)
             {

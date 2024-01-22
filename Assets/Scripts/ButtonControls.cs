@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonControls : MonoBehaviour
 {
@@ -14,30 +15,35 @@ public class ButtonControls : MonoBehaviour
     public void Level1()
     {
         levelStorage.CurrentLevel = 1;
+        levelStorage.LevelLoaded = false;
         canvas.gameObject.SetActive(false);
         levelSelectionScreen = false;
     }
     public void Level2()
     {
         levelStorage.CurrentLevel = 2;
+        levelStorage.LevelLoaded = false;
         canvas.gameObject.SetActive(false);
         levelSelectionScreen = false;
     }
     public void Level3()
     {
         levelStorage.CurrentLevel = 3;
+        levelStorage.LevelLoaded = false;
         canvas.gameObject.SetActive(false);
         levelSelectionScreen = false;
     }
     public void Level4()
     {
         levelStorage.CurrentLevel = 4;
+        levelStorage.LevelLoaded = false;
         canvas.gameObject.SetActive(false);
         levelSelectionScreen = false;
     }
     public void Level5()
     {
         levelStorage.CurrentLevel = 5;
+        levelStorage.LevelLoaded = false;
         canvas.gameObject.SetActive(false);
         levelSelectionScreen = false;
     }

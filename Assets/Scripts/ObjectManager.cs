@@ -25,7 +25,6 @@ public class ObjectManager : MonoBehaviour
 
     public Block pushNPullBlock;
 
-
     private Block player;
 
     public Transform wallContainer;
@@ -52,7 +51,7 @@ public class ObjectManager : MonoBehaviour
 
     void Update()
     {
-        if (levelStorage.levelLoaded)
+        if (levelStorage.LevelLoaded)
         {
             if (!buttonControls.LevelSelectionScreen)
             {
