@@ -14,7 +14,7 @@ public class LevelStorage : MonoBehaviour
     public Block pullBlock;
     public Block pushNPullBlock;
 
-    private int currentLevel = 1;
+    private int currentLevel = 0;
     public bool levelLoaded = false;
 
     private int currentRows;
@@ -24,6 +24,12 @@ public class LevelStorage : MonoBehaviour
 
     public int Rows => currentRows;
     public int Cols => currentColumns;
+
+    public int CurrentLevel
+    {
+        get { return currentLevel; }
+        set { currentLevel = value; }
+    }
 
     public int[,] level1 = 
         { { 2, 2, 2, 2, 2, 2},
@@ -90,7 +96,11 @@ public class LevelStorage : MonoBehaviour
 
     private void LevelLoading()
     {
-        if (!levelLoaded)
+        if(currentLevel == 0)
+        {
+            return;
+        }
+        else if (!levelLoaded)
         {
             objectManager.ClearGameArray();
             int[,] currentStage = levelDict[currentLevel];
@@ -132,7 +142,7 @@ public class LevelStorage : MonoBehaviour
         switch (currentLevel)
         {
             case 1:
-                if (objectManager.GameArray[4,2] != null && objectManager.GameArray[4, 2].GetType() == typeof(PushBlock))
+                if (objectManager.GameArray[4, 2] != null && objectManager.GameArray[4, 2].GetType() == typeof(PushBlock))
                 {
                     winFulfilled = true;
                 }

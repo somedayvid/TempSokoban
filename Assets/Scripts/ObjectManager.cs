@@ -11,6 +11,8 @@ public class ObjectManager : MonoBehaviour
     [SerializeField] private float spriteSize = 1.0f;
     public LevelStorage levelStorage;
 
+    public ButtonControls buttonControls;
+
     //Game grid creation
     private Block[,] gameArray;
 
@@ -52,9 +54,12 @@ public class ObjectManager : MonoBehaviour
     {
         if (levelStorage.levelLoaded)
         {
-            PlayerPushBlock();
-            PlayerMovement();
-            PlayerPullBlock();
+            if (!buttonControls.LevelSelectionScreen)
+            {
+                PlayerPushBlock();
+                PlayerMovement();
+                PlayerPullBlock();
+            }
         }
     }
 
@@ -62,24 +67,24 @@ public class ObjectManager : MonoBehaviour
     /// Basic Player movement using WASD keys
     /// </summary>
     public void PlayerMovement() {
-        if (Input.GetKeyDown(KeyCode.A) && player.CanLeft)
-        {
-            player.XPos -= 1;
-        }
-        if (Input.GetKeyDown(KeyCode.S) && player.CanDown)
-        {
-            player.YPos += 1;
-        }
-        if (Input.GetKeyDown(KeyCode.W) && player.CanUp)
-        {
-            player.YPos -= 1;
-        }
-        if (Input.GetKeyDown(KeyCode.D) && player.CanRight)
-        {
-            player.XPos += 1;
-        }
+         if (Input.GetKeyDown(KeyCode.A) && player.CanLeft)
+         {
+             player.XPos -= 1;
+         }
+         if (Input.GetKeyDown(KeyCode.S) && player.CanDown)
+         {
+             player.YPos += 1;
+         }
+         if (Input.GetKeyDown(KeyCode.W) && player.CanUp)
+         {
+             player.YPos -= 1;
+         }
+         if (Input.GetKeyDown(KeyCode.D) && player.CanRight)
+         {
+             player.XPos += 1;
+         }
 
-        MoveBlock(player);
+         MoveBlock(player);
     }
 
     /// <summary>
